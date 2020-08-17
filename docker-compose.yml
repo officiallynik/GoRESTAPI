@@ -1,0 +1,10 @@
+version: '3'
+services: 
+    api:
+        build: 
+            dockerfile: Dockerfile
+            context: ./
+        volumes:
+            - ./src:/src/
+        ports: 
+            - 5000:8080
