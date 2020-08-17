@@ -1,4 +1,4 @@
-module github.com/officiallynik/go-blog-rest-api
+module blogapp
 
 go 1.15
 
