@@ -74,10 +74,16 @@ func main() {
 	BlogGroup := server.Group("blogs")
 	{
 		BlogGroup.GET("/", routes.GetAllBlogs)
-		BlogGroup.POST("/", middlewares.AuthMiddleware(), routes.PostBlog)
+		BlogGroup.POST("/", middlewares.AuthenticationMiddleware(), routes.PostBlog)
 		BlogGroup.GET("/:id", routes.GetBlog)
-		BlogGroup.PUT("/:id", middlewares.AuthMiddleware(), routes.PutBlog)
-		BlogGroup.DELETE("/:id", middlewares.AuthMiddleware(), routes.DeleteBlog)
+		BlogGroup.PUT("/:id", middlewares.AuthenticationMiddleware(), middlewares.AuthorizationMiddleware(), routes.PutBlog)
+		BlogGroup.DELETE("/:id", middlewares.AuthorizationMiddleware(), routes.DeleteBlog)
+	}
+
+	UserGroup := server.Group("users")
+	{
+		UserGroup.POST("/register", routes.RegisterUser)
+		UserGroup.POST("/login", routes.LoginUser)
 	}
 
 	server.Run()
