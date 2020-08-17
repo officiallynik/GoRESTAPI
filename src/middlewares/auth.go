@@ -1,15 +1,20 @@
 package middlewares
 
 import (
+	"blogapp/src/routes"
+
 	"github.com/gin-gonic/gin"
 )
 
 // AuthenticationMiddleware ==> logic to authentication
 func AuthenticationMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		ID := c.Param("id")
 		bearer := c.Request.Header.Get("Authorization")
 
-		if len(bearer) != 0 {
+		AuthorID := routes.AllBlogs[ID].AuthorID
+
+		if bearer == AuthorID {
 			c.Next()
 		} else {
 			c.JSON(400, "Not Authenticated")

@@ -14,6 +14,7 @@ type Blog struct {
 	Author   string
 	BlogData string
 	ID       string
+	AuthorID string
 }
 
 // AllBlogs global variable
@@ -47,12 +48,14 @@ func GetBlog(c *gin.Context) {
 // PostBlog ==> post a new blog
 func PostBlog(c *gin.Context) {
 	body := c.Request.Body
+	AuthorID := c.Request.Header.Get("Authorization")
 
 	var val Blog
 	json.NewDecoder(body).Decode(&val)
 
 	UUIDNew := uuid.New()
 	val.ID = strings.Replace(UUIDNew.String(), "-", "", -1)
+	val.AuthorID = AuthorID
 
 	AllBlogs[val.ID] = val
 
